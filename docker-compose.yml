@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    image: openwatermap/backend:latest
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=your_database_url
+      - API_KEY=your_api_key
+  frontend:
+    image: openwatermap/frontend:latest
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_URL=http://localhost:8080
