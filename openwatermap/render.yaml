@@ -1,0 +1,42 @@
+services:
+  # ============================================================
+  # БЭКЕНД — Go сервер
+  # ============================================================
+  - type: web
+    name: openwatermap-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+
+    # Переменные окружения
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: DB_PATH
+        value: /data/water.db
+      - key: FRONTEND_URL
+        value: https://openwatermap.onrender.com
+
+    # Диск для хранения SQLite — данные не теряются при деплое
+    disk:
+      name: water-data
+      mountPath: /data
+      sizeGB: 1
+
+    healthCheckPath: /health
+
+  # ============================================================
+  # ФРОНТЕНД — статический сайт
+  # ============================================================
+  - type: web
+    name: openwatermap
+    runtime: static
+    staticPublishPath: ./
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /openwatermap.html
