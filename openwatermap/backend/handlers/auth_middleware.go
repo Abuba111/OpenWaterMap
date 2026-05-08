@@ -108,18 +108,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 }
 
 // OptionalAuthMiddleware — токен необязателен, но если есть — читаем
-func OptionalAuthMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		authHeader := r.Header.Get("Authorization")
-		if authHeader != "" {
-			parts := strings.SplitN(authHeader, " ", 2)
-			if len(parts) == 2 && parts[0] == "Bearer" {
-				if claims, err := ParseToken(parts[1]); err == nil {
-					ctx := context.WithValue(r.Context(), userContextKey, claims)
-					r = r.WithContext(ctx)
-				}
-			}
-		}
+
 		next.ServeHTTP(w, r)
 	})
 }
