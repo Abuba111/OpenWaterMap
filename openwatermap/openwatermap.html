@@ -1812,7 +1812,15 @@ async function initMap() {
   map = L.map('map', {
     center: [48.0196, 66.9237],
     zoom: 5,
-    zoomControl: false
+    minZoom: 4,
+    maxZoom: 16,
+    maxBounds: [
+      [25.0,  40.0],  // юго-запад (Иран/Пакистан)
+      [65.0, 100.0]   // северо-восток (Сибирь/Китай)
+    ],
+    maxBoundsViscosity: 0.8,
+    zoomControl: false,
+    worldCopyJump: false
   });
 
   // Пробуем разные серверы тайлов — если один не работает, берём следующий
