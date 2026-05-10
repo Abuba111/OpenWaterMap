@@ -14,6 +14,23 @@ docker compose up --build
 
 Остановить: `docker compose down`
 
+
+
+# 🌊 OpenWaterMap — Kazakhstan Water Quality
+
+An interactive map for monitoring and visualizing water quality across Kazakhstan. 
+Built with a focus on simplicity, performance, and containerization.
+
+**Stack:** Go + SQLite + Leaflet + Docker.
+
+---
+
+## 🚀 Quick Start (Single Command)
+
+Get the project up and running in seconds using Docker:
+
+```bash
+docker compose up --build
 ---
 
 ## 📁 Структура
@@ -34,6 +51,18 @@ openwatermap/
         ├── water.go
         └── health.go
 ```
+openwatermap/
+├── docker-compose.yml    # Orchestration
+├── nginx.conf            # Frontend proxy & static serving
+├── openwatermap.html      # Leaflet-based map (Frontend)
+└── backend/
+    ├── Dockerfile
+    ├── go.mod
+    ├── main.go           # Entry point
+    ├── config/           # Configuration management
+    ├── models/           # Data structures (Water quality)
+    ├── database/         # SQLite initialization & Queries
+    └── handlers/         # API Route logic (Water & Health)
 
 ---
 
@@ -47,6 +76,13 @@ openwatermap/
 | GET | /api/points/{id} | Одна точка |
 | POST | /api/points | Добавить точку |
 
+
+Method,Endpoint,Description
+GET,/health,Server status check
+GET,/api/points,Fetch all water quality points
+GET,/api/points?status=good,Filter points by status
+GET,/api/points/{id},Get detailed data for a specific point
+POST,/api/points,Submit new water quality data
 ---
 
 ## 🎯 Статусы воды
@@ -57,18 +93,8 @@ openwatermap/
 | warning | 🟡 | pH 6.0–6.5 или 8.5–9.0 |
 | danger | 🔴 | pH < 6 или > 9, мутность > 10 NTU |
 
+Status,Marker,Conditions
+Good,🟢,"pH 6.5–8.5, Turbidity < 3 NTU"
+Warning,🟡,pH 6.0–6.5 or 8.5–9.0
+Danger,🔴,"pH < 6 or > 9, Turbidity > 10 NTU"
 
-# 🌊 OpenWaterMap — Kazakhstan Water Quality
-
-An interactive map for monitoring and visualizing water quality across Kazakhstan. This project provides a lightweight, containerized solution for environmental data visualization.
-
-**Tech Stack:** Go (Backend) + SQLite (Database) + Leaflet (Map) + Docker (Deployment).
-
----
-
-## 🚀 Quick Start
-
-Launch the entire infrastructure with a single command:
-
-```bash
-docker compose up --build
