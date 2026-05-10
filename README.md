@@ -56,3 +56,19 @@ openwatermap/
 | good | 🟢 | pH 6.5–8.5, мутность < 3 NTU |
 | warning | 🟡 | pH 6.0–6.5 или 8.5–9.0 |
 | danger | 🔴 | pH < 6 или > 9, мутность > 10 NTU |
+
+
+# 🌊 OpenWaterMap — Kazakhstan Water Quality
+
+An interactive map for monitoring and visualizing water quality across Kazakhstan. This project provides a lightweight, containerized solution for environmental data visualization.
+
+**Tech Stack:** Go (Backend) + SQLite (Database) + Leaflet (Map) + Docker (Deployment).
+
+---
+
+## 🚀 Quick Start
+
+Launch the entire infrastructure with a single command:
+
+```bash
+docker compose up --build
