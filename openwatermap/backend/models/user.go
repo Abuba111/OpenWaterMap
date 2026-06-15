@@ -47,13 +47,13 @@ func (r *RegisterRequest) Validate() string {
 	if r.Name == "" {
 		return "name обязателен"
 	}
-	if len(r.Name) > 10 {
+	if len(r.Name) > 100 {
 		return "name слишком длинный"
 	}
 	if r.Email == "" {
 		return "email обязателен"
 	}
-	if len(r.Email) > 20 {
+	if len(r.Email) > 200 {
 		return "email слишком длинный"
 	}
 	if len(r.Password) < 6 {
