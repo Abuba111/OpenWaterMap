@@ -625,7 +625,7 @@
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%) translateY(250px);
+    transform: translateX(-50%) translateY(60px);
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -889,13 +889,14 @@
       position: fixed !important;
       left: 0 !important;
       right: 0 !important;
-      bottom: 56px !important;
+      bottom: 0 !important;
       top: auto !important;
       width: 100% !important;
-      max-height: 65vh;
+      max-height: 75vh;
       border-radius: 16px 16px 0 0;
       transform: translateY(110%) !important;
       opacity: 1 !important;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     .detail-panel.visible {
@@ -911,7 +912,7 @@
     }
 
     /* Тепловая легенда */
-    .heatmap-legend { bottom: 17px; }
+    .heatmap-legend { bottom: 70px; }
 
     /* Панели — полноэкранные */
     .admin-panel,
@@ -1083,7 +1084,7 @@
 
   /* ADMIN PANEL */
   .admin-btn {
-    margin: -5px 16px 0;
+    margin: 8px 16px 0;
     padding: 8px;
     background: transparent;
     border: 1px solid var(--border);
