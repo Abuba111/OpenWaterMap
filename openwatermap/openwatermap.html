@@ -908,7 +908,7 @@
 
     /* Тост — выше нижней панели */
     .toast {
-      bottom: 0px !important;
+      bottom: 70px !important;
     }
 
     /* Тепловая легенда */
@@ -1337,7 +1337,33 @@
       </div>
     </div>
 
-    <div class="section-title" style="padding: 16px 16px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted);">Точки воды</div>
+    <div style="padding: 8px 16px;">
+      <div style="position:relative;">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Поиск по названию..."
+          style="
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px 8px 32px;
+            color: var(--text);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+          "
+          oninput="searchPoints(this.value)"
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='var(--border)'"
+        >
+        <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:12px;">🔍</span>
+      </div>
+    </div>
+    <div class="section-title" style="padding: 8px 16px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted);">Точки воды</div>
     <div class="points-list" id="pointsList"></div>
 
     <button class="add-btn" id="addBtn">+ Добавить точку</button>
@@ -2126,7 +2152,13 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
       waterPoints = activeFilter === 'all' ? all : all.filter(p => p.status === activeFilter);
     }
 
-    const filtered = activeFilter === 'all' ? waterPoints : waterPoints.filter(p => p.status === activeFilter);
+    const filtered = waterPoints.filter(p => {
+      const matchFilter = activeFilter === 'all' || p.status === activeFilter;
+      const matchSearch = !searchQuery ||
+        p.name.toLowerCase().includes(searchQuery) ||
+        p.source.toLowerCase().includes(searchQuery);
+      return matchFilter && matchSearch;
+    });
     if (currentMapMode === 'heat') {
       buildHeatmap(filtered);
     } else {
@@ -2522,6 +2554,33 @@ function updateReviewBtn() {
       document.getElementById('pendingCount').textContent = count > 0 ? `(${count})` : '';
     }).catch(() => {});
   }
+}
+
+// ============================================================
+// ПОИСК
+// ============================================================
+let searchQuery = '';
+
+function searchPoints(query) {
+  searchQuery = query.toLowerCase().trim();
+
+  const filtered = waterPoints.filter(p => {
+    const matchSearch = !searchQuery ||
+      p.name.toLowerCase().includes(searchQuery) ||
+      p.source.toLowerCase().includes(searchQuery);
+
+    const matchFilter = activeFilter === 'all' || p.status === activeFilter;
+
+    return matchSearch && matchFilter;
+  });
+
+  if (currentMapMode === 'heat') {
+    buildHeatmap(filtered);
+  } else {
+    renderPoints(filtered);
+  }
+  renderList(filtered);
+  updateStats(filtered);
 }
 
 // ============================================================
